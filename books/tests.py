@@ -12,7 +12,7 @@ class BooksTestCase(TestCase):
     def test_migrations_are_ok(self):
         """Проверяем как отрабатывает миграция.
         Создаются ли тестовые записи в бд."""
-        books = Book.objects.all()
-        authors = Author.objects.all()
-        assert len(books) == 2
-        assert len(authors) == 0
+        books_count = Book.objects.count()
+        authors_count = Author.objects.count()
+        assert books_count == 2
+        assert authors_count == 0

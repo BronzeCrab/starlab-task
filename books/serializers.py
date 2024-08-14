@@ -1,4 +1,4 @@
-from django.contrib.auth.models import Book, Author
+from books.models import Book, Author
 from rest_framework import serializers
 
 
