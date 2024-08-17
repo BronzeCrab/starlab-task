@@ -27,6 +27,8 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
         return book
 
     def get_or_create_authors(self, new_book: Book, authors_data: list[dict]):
+        """Создаем все указаных авторов (или получаем уже созданные)
+        и добавляем к ним созданную Книгу."""
         for author_dict in authors_data:
             author, _ = Author.objects.get_or_create(name=author_dict["name"])
             author.books.add(new_book)

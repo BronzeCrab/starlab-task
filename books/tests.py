@@ -102,3 +102,23 @@ class BooksTestCase(TestCase):
 
         book = Book.objects.get(id=book_id)
         assert book.genre == "new_genre"
+
+    def test_delete_one_book(self):
+        """Удаляем один Book. Список книг в
+        Авторе должен также обновиться."""
+        # это Автор был создан в начальной миграции:
+        first_author = Author.objects.get(id=1)
+        # эти книги тоже были созданы в начальной миграции:
+        assert first_author.books.count() == 2
+
+        amount_of_books = Book.objects.count()
+
+        book_id = 1
+        resp = self.client.delete(f"/books/{book_id}/")
+        assert resp.status_code == status.HTTP_204_NO_CONTENT
+
+        new_amount_of_books = Book.objects.count()
+        assert new_amount_of_books == amount_of_books - 1
+
+        first_author = Author.objects.get(id=1)
+        assert first_author.books.count() == 1
