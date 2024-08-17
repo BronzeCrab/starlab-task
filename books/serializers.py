@@ -13,24 +13,23 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
 
     authors = AuthorSerializer(many=True)
 
-
     def to_representation(self, instance):
         return {
-            'title': instance.title,
-            'genre': instance.genre,
+            "title": instance.title,
+            "genre": instance.genre,
         }
-        
+
     def create(self, validated_data: dict):
-        authors_data = validated_data.pop('authors')
+        authors_data = validated_data.pop("authors")
         book = Book(title=validated_data["title"], genre=validated_data["genre"])
         book.save()
-        for author_dict in authors_data:
-            self.get_or_create_author(book, author_dict)
+        self.get_or_create_authors(book, authors_data)
         return book
 
-    def get_or_create_author(self, new_book: Book, author_dict: dict):
-        author, _ = Author.objects.get_or_create(name=author_dict["name"])
-        author.books.add(new_book)
+    def get_or_create_authors(self, new_book: Book, authors_data: list[dict]):
+        for author_dict in authors_data:
+            author, _ = Author.objects.get_or_create(name=author_dict["name"])
+            author.books.add(new_book)
 
     class Meta:
         model = Book
