@@ -34,7 +34,9 @@ class BooksTestCase(TestCase):
         genre = "genre"
         author = "new_author"
         resp = self.client.post(
-            "/books/", {"title": "title", "genre": genre, "author": author}
+            "/books/",
+            {"title": "title", "genre": genre, "authors": [{"name": author}]},
+            format="json",
         )
         assert resp.status_code == status.HTTP_201_CREATED
 
@@ -64,3 +66,13 @@ class BooksTestCase(TestCase):
 
         new_amount_of_authors = Author.objects.count()
         assert new_amount_of_authors == amount_of_authors
+
+    def test_get_all_books(self):
+        """Получаем список всех Book."""
+        resp = self.client.get("/books/")
+        assert resp.status_code == status.HTTP_200_OK
+        res = resp.json()
+
+        amount_of_books = Book.objects.count()
+        assert amount_of_books > 0
+        assert len(res) == amount_of_books
