@@ -76,3 +76,29 @@ class BooksTestCase(TestCase):
         amount_of_books = Book.objects.count()
         assert amount_of_books > 0
         assert len(res) == amount_of_books
+
+    def test_get_one_book(self):
+        """Получаем одну Book."""
+        book_id = 1
+        resp = self.client.get(f"/books/{book_id}/")
+        assert resp.status_code == status.HTTP_200_OK
+
+        res = resp.json()
+        assert type(res) is dict
+        assert res["title"] == f"book_{book_id}"
+
+    def test_update_one_book(self):
+        """Обновляем один Book."""
+        book_id = 1
+        book = Book.objects.get(id=book_id)
+        assert book.genre == "test_genre_1"
+
+        resp = self.client.patch(f"/books/{book_id}/", {"genre": "new_genre"})
+        assert resp.status_code == status.HTTP_200_OK
+
+        res = resp.json()
+        assert type(res) is dict
+        assert res["title"] == f"book_{book_id}"
+
+        book = Book.objects.get(id=book_id)
+        assert book.genre == "new_genre"
