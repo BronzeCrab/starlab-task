@@ -1,6 +1,11 @@
 ## what is this:
 
-This is django, djangorestframework related task 4 starlab
+This is django, djangorestframework related task 4 starlab.
+
+## what i've done:
+
+- test1
+- test2
 
 ## how to run it:
 
@@ -38,6 +43,6 @@ python manage.py runserver
 
 ## how to run tests:
 
-```bash
+```
 python manage.py test
 ```

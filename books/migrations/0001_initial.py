@@ -5,20 +5,23 @@ from django.db import migrations, models
 
 def forwards_func(apps, schema_editor):
     Book = apps.get_model("books", "Book")
+    Author = apps.get_model("books", "Author")
     db_alias = schema_editor.connection.alias
-    Book.objects.using(db_alias).bulk_create(
-        [
-            Book(title="book_1", genre="test_genre_1"),
-            Book(title="book_2", genre="test_genre_2"),
-        ]
-    )
+    b1 = Book(title="book_1", genre="test_genre_1")
+    b2 = Book(title="book_2", genre="test_genre_2")
+    Book.objects.using(db_alias).bulk_create([b1, b2])
+    a1 = Author(name="Author1")
+    a1.save()
+    a1.books.add(b1, b2)
 
 
 def reverse_func(apps, schema_editor):
     Book = apps.get_model("books", "Book")
+    Author = apps.get_model("books", "Author")
     db_alias = schema_editor.connection.alias
     Book.objects.using(db_alias).filter(title="book_1", genre="test_genre_1").delete()
     Book.objects.using(db_alias).filter(title="book_2", genre="test_genre_2").delete()
+    Author.objects.using(db_alias).filter(name="Author1").delete()
 
 
 class Migration(migrations.Migration):

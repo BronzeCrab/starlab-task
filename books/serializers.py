@@ -3,9 +3,12 @@ from rest_framework import serializers
 
 
 class BookSerializer(serializers.HyperlinkedModelSerializer):
+
+    author = serializers.CharField(required=True)
+
     class Meta:
         model = Book
-        fields = ["id", "title", "date_published", "genre"]
+        fields = ["id", "title", "date_published", "genre", "author"]
 
 
 class AuthorSerializer(serializers.HyperlinkedModelSerializer):

@@ -1,6 +1,5 @@
 """
 URL configuration for starlab_task project.
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
 Examples:
@@ -17,18 +16,9 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework import routers
 
-from books import views
-
-router = routers.DefaultRouter()
-router.register(r"books", views.BookViewSet)
-router.register(r"authors", views.AuthorViewSet)
-
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    path("", include(router.urls)),
+    path("", include("books.urls")),
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]
