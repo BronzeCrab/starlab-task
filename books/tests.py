@@ -122,3 +122,66 @@ class BooksTestCase(TestCase):
 
         first_author = Author.objects.get(id=1)
         assert first_author.books.count() == 1
+
+    def test_create_author(self):
+        """Созаем новый Author."""
+        ## todo: нужно добавить возможность создавать авторов с книгами
+        amount_of_authors = Author.objects.count()
+
+        resp = self.client.post("/authors/", {"name": "some_name"})
+        assert resp.status_code == status.HTTP_201_CREATED
+
+        new_amount_of_authors = Author.objects.count()
+
+        assert new_amount_of_authors == amount_of_authors + 1
+        assert Author.objects.last().name == "some_name"
+
+    def test_get_all_authors(self):
+        """Получаем список всех Author."""
+        resp = self.client.get("/authors/")
+        assert resp.status_code == status.HTTP_200_OK
+
+        res = resp.json()
+
+        amount_of_authors = Author.objects.count()
+        assert amount_of_authors > 0
+        assert len(res) == amount_of_authors
+        assert res == [{"id": 1, "name": "Author1"}]
+
+    def test_get_one_author(self):
+        """Получаем один Author."""
+        author_id = 1
+        resp = self.client.get(f"/authors/{author_id}/")
+        assert resp.status_code == status.HTTP_200_OK
+
+        res = resp.json()
+        assert type(res) is dict
+        assert res == {"id": 1, "name": "Author1"}
+
+    def test_update_one_author(self):
+        """Обновляем один Author."""
+        new_name = "new_name_123"
+
+        author_id = 1
+        author = Author.objects.get(id=author_id)
+        assert author.name != new_name
+
+        resp = self.client.patch(f"/authors/{author_id}/", {"name": new_name})
+        assert resp.status_code == status.HTTP_200_OK
+
+        res = resp.json()
+        assert type(res) is dict
+
+        author = Author.objects.get(id=author_id)
+        assert author.name == new_name
+
+    def test_delete_one_author(self):
+        """Удаляем один Author."""
+        amount_of_authors = Author.objects.count()
+
+        author_id = 1
+        resp = self.client.delete(f"/authors/{author_id}/")
+        assert resp.status_code == status.HTTP_204_NO_CONTENT
+
+        new_amount_of_authors = Author.objects.count()
+        assert new_amount_of_authors == amount_of_authors - 1
