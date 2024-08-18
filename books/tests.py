@@ -35,7 +35,12 @@ class BooksTestCase(TestCase):
         author = "new_author"
         resp = self.client.post(
             "/books/",
-            {"title": "title", "genre": genre, "authors": [{"name": author}]},
+            {
+                "title": "title",
+                "genre": genre,
+                "authors": [{"name": author}],
+                "date_published": "2024-08-08",
+            },
             format="json",
         )
         assert resp.status_code == status.HTTP_201_CREATED

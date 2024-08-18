@@ -6,7 +6,10 @@ class AuthorSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Author
-        fields = "__all__"
+        fields = (
+            "id",
+            "name",
+        )
 
 
 class BookSerializer(serializers.HyperlinkedModelSerializer):
@@ -24,7 +27,11 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data: dict):
         authors_data = validated_data.pop("authors")
-        book = Book(title=validated_data["title"], genre=validated_data["genre"])
+        book = Book(
+            title=validated_data["title"],
+            genre=validated_data["genre"],
+            date_published=validated_data["date_published"],
+        )
         book.save()
         self.get_or_create_authors(book, authors_data)
         return book
@@ -38,4 +45,10 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Book
-        fields = "__all__"
+        fields = (
+            "id",
+            "title",
+            "genre",
+            "date_published",
+            "authors",
+        )
