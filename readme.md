@@ -14,6 +14,7 @@ This is django, djangorestframework related task 4 starlab.
 - implemented `FileUploadView` endpoint which can receive `files`,
   parse it and find specific `Book`s  in the `db` and set `is_denied` to `True`.
 - I set up the `django` loggin (all logs are saved to `general.log` in the `root` of project).
+- Added `Dockerfile`.
 
 ## how to run it:
 
@@ -59,6 +60,8 @@ to `/books` endpoint and test if you can download book files using given links.
 ```sh
 sudo docker build -t starlabtask .
 ```
+
+Then:
 
 ```sh
 sudo docker run -p 4000:8000 starlabtask
