@@ -54,6 +54,17 @@ in the migration file - `0001_initial.py`, you can add some book files using `ad
 to `/books` endpoint and test if you can download book files using given links.
 
 
+## How to run project using `Docker`:
+
+```sh
+sudo docker build -t starlabtask .
+```
+
+```sh
+sudo docker run -p 4000:8000 starlabtask
+```
+
+
 ## how to run testing scripts:
 
 You cand run testin scripts from the root of the project, for example,
