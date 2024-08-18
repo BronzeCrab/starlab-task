@@ -18,8 +18,8 @@ class BooksTestCase(TestCase):
         Создаются ли тестовые записи в бд."""
         books = Book.objects.all()
         authors = Author.objects.all()
-        assert len(books) == 2
-        assert len(authors) == 1
+        assert len(books) == 3
+        assert len(authors) == 2
         assert authors[0].books.count() == 2
         assert len(books[0].author_set.all()) == 1
         assert len(books[1].author_set.all()) == 1
@@ -208,7 +208,7 @@ class BooksTestCase(TestCase):
         amount_of_authors = Author.objects.count()
         assert amount_of_authors > 0
         assert len(res) == amount_of_authors
-        assert res == [{"id": 1, "name": "Author1"}]
+        assert res == [{"id": 1, "name": "Author1"}, {"id": 2, "name": "Frank Herbert"}]
 
     def test_get_one_author(self):
         """Получаем один Author."""

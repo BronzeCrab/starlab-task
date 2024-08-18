@@ -1,4 +1,5 @@
 from openpyxl import load_workbook
+from openpyxl.worksheet.worksheet import Worksheet
 from rest_framework import permissions, viewsets, views
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
@@ -34,9 +35,42 @@ class AuthorViewSet(viewsets.ModelViewSet):
 class FileUploadView(views.APIView):
     parser_classes = [FileUploadParser]
 
-    def put(self, request, filename, format=None):
-        file_obj = request.data["upload_file"]
-        wb = load_workbook(filename=BytesIO(file_obj.read()))
-        print("successful readin of xlsx")
-        print(wb)
+    def _parse_worksheet(self, ws: Worksheet, alist: list[str]) -> None:
+        row_ind = 2
+        while True:
+            cell = ws.cell(row=row_ind, column=2)
+            if not cell.value:
+                break
+            alist.append(str(cell.value).strip().lower())
+            row_ind += 1
+
+    def put(self, request, filename, format=None) -> Response:
+        try:
+            file_obj = request.data["file"]
+
+            wb = load_workbook(filename=BytesIO(file_obj.read()))
+
+            book_names = []
+            ws_name = wb["name"]
+            self._parse_worksheet(ws_name, book_names)
+
+            book_authors = []
+            ws_name = wb["author"]
+            self._parse_worksheet(ws_name, book_authors)
+
+            if book_names and book_authors:
+                for i, book_name in enumerate(book_names):
+                    book_qs = Book.objects.filter(title__iexact=book_name)
+                    if book_qs:
+                        book = book_qs.first()
+                        author_qs = book.author_set.filter(name__iexact=book_authors[i])
+                        if author_qs:
+                            author = author_qs.first()
+                            book.is_denied = True
+                            book.save()
+
+        except Exception as exc:
+            print(f"Error: parsing file error: {exc}")
+            return Response(status=400)
+
         return Response(status=204)

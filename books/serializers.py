@@ -22,7 +22,11 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
             "title": instance.title,
             "genre": instance.genre,
             "date_published": instance.date_published,
-            "book_file": instance.book_file.url if instance.book_file else None,
+            "book_file": (
+                instance.book_file.url
+                if (instance.book_file and not instance.is_denied)
+                else None
+            ),
             "is_denied": instance.is_denied,
         }
 

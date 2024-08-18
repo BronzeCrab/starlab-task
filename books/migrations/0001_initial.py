@@ -15,10 +15,14 @@ def forwards_func(apps, schema_editor):
     b2 = Book(
         title="book_2", genre="test_genre_2", date_published=datetime.now().date()
     )
-    Book.objects.using(db_alias).bulk_create([b1, b2])
+    b3 = Book(title="Dune", genre="test_genre_3", date_published=datetime.now().date())
+    Book.objects.using(db_alias).bulk_create([b1, b2, b3])
     a1 = Author(name="Author1")
     a1.save()
     a1.books.add(b1, b2)
+    a2 = Author(name="Frank Herbert")
+    a2.save()
+    a2.books.add(b3)
 
 
 def reverse_func(apps, schema_editor):
