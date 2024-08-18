@@ -125,4 +125,5 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-MEDIA_URL = "http://127.0.0.1:8000/"
+MEDIA_URL = "http://127.0.0.1:8000/uploads/"
+MEDIA_ROOT = "./uploads/"

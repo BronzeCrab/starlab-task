@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
                 ("title", models.CharField(max_length=30)),
                 ("date_published", models.DateField()),
                 ("genre", models.CharField(max_length=30)),
-                ("book_file", models.FileField(upload_to="uploads/")),
+                ("book_file", models.FileField()),
             ],
         ),
         migrations.CreateModel(

@@ -105,6 +105,30 @@ class BooksTestCase(TestCase):
         new_amount_of_authors = Author.objects.count()
         assert new_amount_of_authors == amount_of_authors
 
+    def test_create_book_failed_no_date_published(self):
+        """Созаем новую Book. Не получается создать книгу
+        и автора, дата книги не указана."""
+        amount_of_books = Book.objects.count()
+        amount_of_authors = Author.objects.count()
+
+        resp = self.client.post(
+            "/books/",
+            {
+                "genre": "genre",
+                "authors": [{"name": "new_author"}],
+                "title": "new_title",
+            },
+            format="json",
+        )
+        assert resp.status_code == status.HTTP_400_BAD_REQUEST
+        assert resp.json() == {"date_published": ["This field is required."]}
+
+        new_amount_of_books = Book.objects.count()
+        assert new_amount_of_books == amount_of_books
+
+        new_amount_of_authors = Author.objects.count()
+        assert new_amount_of_authors == amount_of_authors
+
     def test_get_all_books(self):
         """Получаем список всех Book."""
         resp = self.client.get("/books/")
