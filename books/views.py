@@ -45,7 +45,9 @@ class FileUploadView(views.APIView):
             alist.append(str(cell.value).strip().lower())
             row_ind += 1
 
-    def _check_and_update_books(self, book_names: list[str], book_authors: list[str]):
+    def _check_and_update_books(
+        self, book_names: list[str], book_authors: list[str]
+    ) -> None:
         """Trying to find the book in db and set is_denied to True."""
         if book_names and book_authors:
             for i, book_name in enumerate(book_names):
