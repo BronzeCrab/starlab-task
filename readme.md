@@ -45,9 +45,9 @@ Run the project:
 python manage.py runserver
 ```
 
-Now, you can go to `/admin`, there will be 2 Books and 1 Author, created
-in the migration file, you can add some book_files using admin, then go
-to `/books` endpoint and test if you can download book files using links.
+Now, you can go to `/admin`, there will be 2 `Books` and 1 `Author`, created
+in the migration file - `0001_initial.py`, you can add some book files using `admin`, then go
+to `/books` endpoint and test if you can download book files using given links.
 
 
 ## how to run tests:
