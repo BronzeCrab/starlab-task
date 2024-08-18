@@ -11,6 +11,8 @@ This is django, djangorestframework related task 4 starlab.
 - project is working with `sqlite.db`.
 - you can upload book files through the django `admin`.
 - added some testing scripts, in the `testing_scripts` folder.
+- implemented `FileUploadView` endpoint which can receive `files`,
+  parse it and find specific `Book`s  in the `db` and set `is_denied` to `True`.
 
 ## how to run it:
 
@@ -53,7 +55,8 @@ to `/books` endpoint and test if you can download book files using given links.
 
 ## how to run testing scripts:
 
-You cand run testin scripts from the root of the project, for example:
+You cand run testin scripts from the root of the project, for example,
+to test `FileUploadView` endpoint (parsing `decline_list`):
 
 ```sh
 python testing_scripts/denied_xlsx_test.py
