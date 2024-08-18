@@ -4,12 +4,13 @@ This is django, djangorestframework related task 4 starlab.
 
 ## what i've done:
 
-- decided to use `Django` and `DRF` for this task
+- decided to use `Django` and `DRF` for this task.
 - created `Book` and `Author` models, with `many-to-many` realation.
-- writted tests on all `CRUD` endpoints, `./books/tests.py`
+- writted tests on all `CRUD` endpoints, `./books/tests.py`.
 - there is validations of necessary field in the `POST` of `Book`.
-- project is working with `sqlite.db`
-- you can upload book files through the django `admin`
+- project is working with `sqlite.db`.
+- you can upload book files through the django `admin`.
+- added some testing scripts, in the `testing_scripts` folder.
 
 ## how to run it:
 
@@ -49,6 +50,14 @@ Now, you can go to `/admin`, there will be 2 `Books` and 1 `Author`, created
 in the migration file - `0001_initial.py`, you can add some book files using `admin`, then go
 to `/books` endpoint and test if you can download book files using given links.
 
+
+## how to run testing scripts:
+
+You cand run testin scripts from the root of the project, for example:
+
+```sh
+python testing_scripts/denied_xlsx_test.py
+```
 
 ## how to run tests:
 

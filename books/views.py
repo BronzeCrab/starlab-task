@@ -1,9 +1,12 @@
+from openpyxl import load_workbook
 from rest_framework import permissions, viewsets, views
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 
 from books.models import Book, Author
 from books.serializers import BookSerializer, AuthorSerializer
+
+from io import BytesIO
 
 
 class BookViewSet(viewsets.ModelViewSet):
@@ -32,8 +35,8 @@ class FileUploadView(views.APIView):
     parser_classes = [FileUploadParser]
 
     def put(self, request, filename, format=None):
-        file_obj = request.data["file"]
-        # ...
-        # do some stuff with uploaded file
-        # ...
+        file_obj = request.data["upload_file"]
+        wb = load_workbook(filename=BytesIO(file_obj.read()))
+        print("successful readin of xlsx")
+        print(wb)
         return Response(status=204)
