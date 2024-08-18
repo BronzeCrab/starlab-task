@@ -1,4 +1,6 @@
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, views
+from rest_framework.parsers import FileUploadParser
+from rest_framework.response import Response
 
 from books.models import Book, Author
 from books.serializers import BookSerializer, AuthorSerializer
@@ -24,3 +26,14 @@ class AuthorViewSet(viewsets.ModelViewSet):
     serializer_class = AuthorSerializer
     permission_classes = [permissions.IsAuthenticated]
     filterset_fields = ("name",)
+
+
+class FileUploadView(views.APIView):
+    parser_classes = [FileUploadParser]
+
+    def put(self, request, filename, format=None):
+        file_obj = request.data['file']
+        # ...
+        # do some stuff with uploaded file
+        # ...
+        return Response(status=204)
