@@ -6,7 +6,7 @@ class AuthorSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Author
-        fields = ["id", "name"]
+        fields = "__all__"
 
 
 class BookSerializer(serializers.HyperlinkedModelSerializer):
@@ -15,8 +15,11 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
 
     def to_representation(self, instance):
         return {
+            "id": instance.id,
             "title": instance.title,
             "genre": instance.genre,
+            "date_published": instance.date_published,
+            "book_file": instance.book_file.url if instance.book_file else None,
         }
 
     def create(self, validated_data: dict):
@@ -35,4 +38,4 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Book
-        fields = ["id", "title", "date_published", "genre", "authors"]
+        fields = "__all__"
