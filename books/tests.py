@@ -148,6 +148,8 @@ class BooksTestCase(TestCase):
         res = resp.json()
         assert type(res) is dict
         assert res["title"] == f"book_{book_id}"
+        assert res["is_denied"] is False
+        assert res["book_file"] is None
 
     def test_update_one_book(self):
         """Обновляем один Book."""
@@ -187,7 +189,6 @@ class BooksTestCase(TestCase):
 
     def test_create_author(self):
         """Созаем новый Author."""
-        ## todo: нужно добавить возможность создавать авторов с книгами
         amount_of_authors = Author.objects.count()
 
         resp = self.client.post("/authors/", {"name": "some_name"})
