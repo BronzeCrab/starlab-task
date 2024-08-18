@@ -7,7 +7,11 @@ from rest_framework.response import Response
 from books.models import Book, Author
 from books.serializers import BookSerializer, AuthorSerializer
 
+import logging
 from io import BytesIO
+
+
+logger = logging.getLogger(__name__)
 
 
 class BookViewSet(viewsets.ModelViewSet):
@@ -59,6 +63,9 @@ class FileUploadView(views.APIView):
                         author = author_qs.first()
                         book.is_denied = True
                         book.save()
+                        logger.info(
+                            f"Book {book.title}, with id: {book.id} is updtd (is_denied set to True)"
+                        )
 
     def put(self, request, filename, format=None) -> Response:
         try:
@@ -77,7 +84,7 @@ class FileUploadView(views.APIView):
             self._check_and_update_books(book_names, book_authors)
 
         except Exception as exc:
-            print(f"Error: parsing file error: {exc}")
+            logger.critical(f"Error: parsing file error: {exc}")
             return Response(status=400)
 
         return Response(status=204)
