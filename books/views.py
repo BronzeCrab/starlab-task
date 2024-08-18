@@ -32,7 +32,7 @@ class FileUploadView(views.APIView):
     parser_classes = [FileUploadParser]
 
     def put(self, request, filename, format=None):
-        file_obj = request.data['file']
+        file_obj = request.data["file"]
         # ...
         # do some stuff with uploaded file
         # ...

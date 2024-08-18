@@ -6,6 +6,7 @@ class Book(models.Model):
     date_published = models.DateField()
     genre = models.CharField(max_length=30)
     book_file = models.FileField()
+    is_denied = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

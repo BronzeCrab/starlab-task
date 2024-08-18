@@ -23,6 +23,7 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
             "genre": instance.genre,
             "date_published": instance.date_published,
             "book_file": instance.book_file.url if instance.book_file else None,
+            "is_denied": instance.is_denied,
         }
 
     def create(self, validated_data: dict):
@@ -51,4 +52,5 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
             "genre",
             "date_published",
             "authors",
+            "is_denied",
         )
