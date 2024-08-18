@@ -1,4 +1,4 @@
-from rest_framework import permissions, viewsets, views
+from rest_framework import permissions, viewsets
 
 from books.models import Book, Author
 from books.serializers import BookSerializer, AuthorSerializer
