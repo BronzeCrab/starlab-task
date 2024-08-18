@@ -56,15 +56,48 @@ class BooksTestCase(TestCase):
         new_amount_of_authors = Author.objects.count()
         assert new_amount_of_authors == amount_of_authors + 1
 
-    def test_create_book_failed(self):
+    def test_create_book_failed_no_author(self):
         """Созаем новую Book. Не получается создать книгу
         и автора, автор не указан."""
         amount_of_books = Book.objects.count()
         amount_of_authors = Author.objects.count()
 
         genre = "genre"
-        resp = self.client.post("/books/", {"title": "title", "genre": genre})
+        resp = self.client.post(
+            "/books/",
+            {
+                "title": "title",
+                "genre": genre,
+                "date_published": "2024-08-08",
+            },
+            format="json",
+        )
         assert resp.status_code == status.HTTP_400_BAD_REQUEST
+        assert resp.json() == {"authors": ["This field is required."]}
+
+        new_amount_of_books = Book.objects.count()
+        assert new_amount_of_books == amount_of_books
+
+        new_amount_of_authors = Author.objects.count()
+        assert new_amount_of_authors == amount_of_authors
+
+    def test_create_book_failed_no_title(self):
+        """Созаем новую Book. Не получается создать книгу
+        и автора, название книги не указано."""
+        amount_of_books = Book.objects.count()
+        amount_of_authors = Author.objects.count()
+
+        resp = self.client.post(
+            "/books/",
+            {
+                "genre": "genre",
+                "authors": [{"name": "new_author"}],
+                "date_published": "2024-08-08",
+            },
+            format="json",
+        )
+        assert resp.status_code == status.HTTP_400_BAD_REQUEST
+        assert resp.json() == {"title": ["This field is required."]}
 
         new_amount_of_books = Book.objects.count()
         assert new_amount_of_books == amount_of_books
