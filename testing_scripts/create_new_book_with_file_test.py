@@ -59,3 +59,23 @@ with open("./testing_scripts/some.pdf", "rb") as f:
     print(patch_book_res.text)
     print(patch_book_res.status_code)
     assert patch_book_res.status_code == 200
+
+
+# Getting that created book:
+headers = {
+    "Authorization": f"Token {token}",
+    "Content-type": "application/json",
+}
+print("headers")
+print(headers)
+
+get_book_res = requests.get(
+    f"http://127.0.0.1:8000/books/{book_id}",
+    headers=headers,
+)
+
+print("get_book res:")
+print(get_book_res.text)
+print(get_book_res.status_code)
+print(get_book_res.json())
+assert get_book_res.status_code == 200

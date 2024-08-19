@@ -18,6 +18,7 @@ This is django, djangorestframework related task 4 starlab.
 - I set up the `django` loggin (all logs are saved to `general.log` in the `root` of project).
 - Added `Dockerfile`.
 - No view of `Book` files, sorry, only download.
+- You can check creating of the `Book` and setting `book_file` using `create_new_book_with_file_test.py` script.
 
 ## how to run it:
 
