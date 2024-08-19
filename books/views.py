@@ -1,8 +1,9 @@
 from openpyxl import load_workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from rest_framework import permissions, viewsets, views
-from rest_framework.parsers import FileUploadParser
+from rest_framework.parsers import JSONParser, FileUploadParser
 from rest_framework.response import Response
+from rest_framework.decorators import action
 
 from books.models import Book, Author
 from books.serializers import BookSerializer, AuthorSerializer
@@ -23,6 +24,14 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticated]
     filterset_fields = ("title", "date_published", "genre")
+
+    @action(detail=True, methods=["patch"], parser_classes=[FileUploadParser])
+    def set_book_file(self, request, pk=None):
+        file_obj = request.data["file"]
+        book = Book.objects.get(id=pk)
+        book.book_file = file_obj
+        book.save()
+        return Response(status=200)
 
 
 class AuthorViewSet(viewsets.ModelViewSet):
