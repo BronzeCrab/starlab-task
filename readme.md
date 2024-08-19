@@ -67,6 +67,18 @@ Then:
 sudo docker run -p 4000:8000 starlabtask
 ```
 
+then
+
+```sh
+sudo docker exec -it starlabtask sh -c "python manage.py migrate"
+```
+
+then
+
+```sh
+sudo docker exec -it starlabtask sh -c "python manage.py createsuperuser"
+```
+
 
 ## how to run testing scripts:
 
