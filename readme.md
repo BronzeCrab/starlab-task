@@ -87,7 +87,7 @@ sudo docker exec -it starlabtask sh -c "python manage.py createsuperuser"
 ## how to run testing scripts:
 
 You cand run testin scripts from the root of the project, for example,
-to test `FileUploadView` endpoint (parsing `decline_list`):
+to test `FileUploadView` endpoint (parsing of `decline_list.xslx`):
 
 ```sh
 python testing_scripts/denied_xlsx_test.py
