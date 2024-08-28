@@ -93,6 +93,12 @@ to test `FileUploadView` endpoint (parsing `decline_list`):
 python testing_scripts/denied_xlsx_test.py
 ```
 
+Or you can test `Book` creation with `book_file` uploading:
+
+```sh
+python testing_scripts/create_new_book_with_file_test.py
+```
+
 ## how to run tests:
 
 ```
